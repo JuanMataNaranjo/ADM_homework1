@@ -1,2 +1,5 @@
 # ADM_homework1
-ADM first homework
+
+Each folder (with the name of each individual exercise) 
+contains the python code and a pdf proving the correct 
+answer
