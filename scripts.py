@@ -667,7 +667,30 @@ pair_digit.sort()
 final_list = lower_case + upper_case + odd_digit + pair_digit
 print(''.join(final_list))
 
-# 9. REGEX AND PARSING
+# 9. PYTHON FUNCTIONALS
+
+# a. Map and Lambda Function
+
+cube = lambda x: x ** 3
+
+
+def fibonacci(n):
+    if n == 1:
+        return [0]
+    if n == 0:
+        return []
+    list_ = [None] * n
+    list_[0:2] = [0, 1]
+    for i in range(2, n):
+        list_[i] = list_[i - 1] + list_[i - 2]
+    return list_
+
+
+if __name__ == '__main__':
+    n = int(input())
+    print(list(map(cube, fibonacci(n))))
+
+# 10. REGEX AND PARSING
 # I have reviewed internet for several of these exercises
 
 # a. Detect Floating Point Number
@@ -858,7 +881,7 @@ parser.feed(code)
 # TODO
 
 
-# 10. XML
+# 11. XML
 
 # a. XML1 - Find the Score
 
@@ -896,7 +919,7 @@ def depth(elem, level):
         depth(child, level)
 
 
-# 11. CLOSURES AND DECORATORS
+# 12. CLOSURES AND DECORATORS
 
 # a. Standardize Mobile Number Using Decorators
 # TODO
@@ -906,7 +929,7 @@ def depth(elem, level):
 # TODO
 
 
-# 12. NUMPY
+# 13. NUMPY
 
 # a. Arrays
 
@@ -1066,3 +1089,176 @@ for _ in range(N):
 
 determinant = np.linalg.det(arr)
 print("{:.1f}".format(determinant))
+
+
+# ===== Problem 2 =====
+
+# a. Birthday Cake Candles
+
+def birthdayCakeCandles(candles):
+    maximum = candles[0]
+    candles_to_blow = 0
+    for i in range(len(candles)):
+        if candles[i] > maximum:
+            maximum = candles[i]
+            candles_to_blow = 0
+        if candles[i] == maximum:
+            candles_to_blow += 1
+    return candles_to_blow
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    candles_count = int(input().strip())
+
+    candles = list(map(int, input().rstrip().split()))
+
+    result = birthdayCakeCandles(candles)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+
+
+# b. Number Line Jumps
+
+# Complete the kangaroo function below.
+def kangaroo(x1, v1, x2, v2):
+    if ((x1 > x2) & (v1 > v2)) | ((x2 > x1) & (v2 > v1)) | ((x1 != x2) & (v1 == v2)):
+        return 'NO'
+    elif ((x2 - x1) / (v1 - v2)).is_integer():
+        return 'YES'
+    else:
+        return 'NO'
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    x1V1X2V2 = input().split()
+
+    x1 = int(x1V1X2V2[0])
+
+    v1 = int(x1V1X2V2[1])
+
+    x2 = int(x1V1X2V2[2])
+
+    v2 = int(x1V1X2V2[3])
+
+    result = kangaroo(x1, v1, x2, v2)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
+
+
+# c. Viral Advertising
+
+
+def viralAdvertising(n):
+    arr = [None] * n
+    arr[0] = 2
+    for i in range(1, n):
+        arr[i] = int((arr[i-1]*3)/2)
+    return sum(arr)
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input())
+
+    result = viralAdvertising(n)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+
+
+# d. Recursive Digit Sum
+# TODO: Not fast enough
+
+def superDigit(n, k):
+    initial_digit = str(n) * k
+    return initial_digit if (len(initial_digit) == 1) else superDigit(
+        sum([int(initial_digit[i]) for i in range(len(initial_digit))]), 1)
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    nk = input().split()
+
+    n = nk[0]
+
+    k = int(nk[1])
+
+    result = superDigit(n, k)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+
+# Not sure why the following does not return any value...
+def superDigit(n, k):
+    initial_digit = str(n) * k
+    if (k != 1) | (len(initial_digit) != 1):
+        superDigit(sum([int(initial_digit[i]) for i in range(len(initial_digit))]), 1)
+    else:
+        return initial_digit
+
+# e. Insertion Sort - Part 1
+
+
+def insertionSort1(n, arr):
+    unsorted_value = arr[-1]
+    for i in range(1, n+1):
+        try:
+            if arr[-(i+1)] > unsorted_value:
+                arr[-i] = arr[-(i+1)]
+                print(' '.join([str(int) for int in arr]))
+            else:
+                arr[-i] = unsorted_value
+                print(' '.join([str(int) for int in arr]))
+                break
+        except IndexError:
+            arr[0] = unsorted_value
+            print(' '.join([str(int) for int in arr]))
+
+
+if __name__ == '__main__':
+    n = int(input())
+
+    arr = list(map(int, input().rstrip().split()))
+
+    insertionSort1(n, arr)
+
+# f. Insertion Sort - Part 2
+
+
+def insertionSort1(n, arr):
+    unsorted_value = arr[-1]
+    for i in range(1, n+1):
+        try:
+            if arr[-(i+1)] > unsorted_value:
+                arr[-i] = arr[-(i+1)]
+            else:
+                arr[-i] = unsorted_value
+                break
+        except IndexError:
+            arr[0] = unsorted_value
+    return arr
+
+
+def insertionSort2(n, arr):
+    for i in range(2, n+1):
+        arr[0:i] = insertionSort1(i, arr[0:i])
+        print(' '.join([str(int) for int in arr]))
+
+
+if __name__ == '__main__':
+    n = int(input())
+
+    arr = list(map(int, input().rstrip().split()))
+
+    insertionSort2(n, arr)
