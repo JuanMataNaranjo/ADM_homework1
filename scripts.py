@@ -69,6 +69,20 @@ for i in range(1, n + 1):
     result = result + str(i)
 print(result)
 
+# g. Python If-Else
+
+if __name__ == '__main__':
+    n = int(input().strip())
+    if (n%2) != 0:
+        print('Weird')
+    elif (n >= 2) & (n <= 5):
+        print('Not Weird')
+    elif (n >= 6) & (n <= 20):
+        print('Weird')
+    else:
+        print('Not Weird')
+
+
 # 2. BASIC DATA TYPES
 
 # a. Find the Runner-Up Score
@@ -91,29 +105,46 @@ ls = [[i, j, k] for i in range(x + 1) for j in range(y + 1) for k in range(z + 1
 print(ls)
 
 # c. Nested Lists
-# TODO: nested list
 
+if __name__ == '__main__':
+    list_ = []
+    for _ in range(int(input())):
+        name = input()
+        score = float(input())
+        list_.append([name, score])
+    dict_ = dict(list_)
+    values = list(dict_.values())
+    values_unique = list(set(values))
+    values_unique.sort()
+    second_lowest_grade = []
+    for i in range(len(list_)):
+        if list_[i][1] == values_unique[1]:
+            second_lowest_grade.append(list_[i][0])
+        else:
+            continue
+    second_lowest_grade.sort()
+    print('\n'.join(second_lowest_grade))
 
 # d. Find the percentage
 
 if __name__ == '__main__':
-    n = int(raw_input())
+    n = int(input())
     student_marks = {}
     for _ in range(n):
-        line = raw_input().split()
+        line = input().split()
         name, scores = line[0], line[1:]
         scores = map(float, scores)
         student_marks[name] = scores
-    query_name = raw_input()
+    query_name = input()
     student = float(sum(student_marks[query_name]) / len(student_marks[query_name]))
     print("{:.2f}".format(student))
 
 # e. Lists
 
-N = int(raw_input())
+N = int(input())
 list_ = []
 for i in range(N):
-    s = raw_input().split()
+    s = input().split()
     if s[0] == 'insert':
         eval('list_.' + str(s[0]) + '(' + s[1] + ',' + s[2] + ')')
     elif s[0] == 'print':
@@ -235,17 +266,16 @@ def wrap(string, max_width):
 
 
 # i. Designer Door Mat
-# TODO: (Designer Door Mat) This code does not pass some of the solutions (despite having the same answer seemingly...)
 
-s = 7
-N = int(s[0])
+N_M = list(map(int, input().split()))
+N = N_M[0]
 M = N * 3
 
-for i in range((N / 2)):
-    print('.|.' * (i * 2 + 1)).center(M, '-')
-print('WELCOME').center(M, '-')
-for i in range((N / 2) - 1, -1, -1):
-    print('.|.' * (i * 2 + 1)).center(M, '-')
+for i in range(int((N - 1) / 2)):
+    print(str('.|.' * (i * 2 + 1)).center(M, '-'))
+print('WELCOME'.center(M, '-'))
+for i in range(int(N/2) - 1, -1, -1):
+    print(str('.|.' * (i * 2 + 1)).center(M, '-'))
 
 
 # j. String Formatting
@@ -1176,12 +1206,11 @@ if __name__ == '__main__':
 
 
 # d. Recursive Digit Sum
-# TODO: Not fast enough
+
 
 def superDigit(n, k):
-    initial_digit = str(n) * k
-    return initial_digit if (len(initial_digit) == 1) else superDigit(
-        sum([int(initial_digit[i]) for i in range(len(initial_digit))]), 1)
+    initial_digit = str(n)
+    return initial_digit if (len(initial_digit) == 1) else superDigit(sum([int(initial_digit[i]) for i in range(len(initial_digit))]) * k, 1)
 
 
 if __name__ == '__main__':
@@ -1198,14 +1227,6 @@ if __name__ == '__main__':
     fptr.write(str(result) + '\n')
 
     fptr.close()
-
-# Not sure why the following does not return any value...
-def superDigit(n, k):
-    initial_digit = str(n) * k
-    if (k != 1) | (len(initial_digit) != 1):
-        superDigit(sum([int(initial_digit[i]) for i in range(len(initial_digit))]), 1)
-    else:
-        return initial_digit
 
 # e. Insertion Sort - Part 1
 
