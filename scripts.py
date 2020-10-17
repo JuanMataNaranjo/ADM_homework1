@@ -11,6 +11,8 @@ import re
 from html.parser import HTMLParser
 import xml.etree.ElementTree as etree
 import numpy as np
+from collections import defaultdict
+from collections import namedtuple
 
 # 1. INTRODUCTION
 
@@ -389,24 +391,27 @@ def average(array):
 
 
 # b. No Idea!
-# TODO: not so easy at the end...
 
-_ = raw_input()
-arr = list(map(int, raw_input().split()))
-A = list(map(int, raw_input().split()))
-B = list(map(int, raw_input().split()))
-positive_happiness = set([A]).intersection(arr)
-negative_happiness = set([B]).intersection(arr)
-happiness = len(positive_happiness) - len(negative_happiness)
-print(happiness)
+_ = list(map(int, input().split()))
+array = list(map(int, input().split()))
+A = list(map(int, input().split()))
+B = list(map(int, input().split()))
+
+A_array_intersection = set(A).intersection(array)
+B_array_intersection = set(B).intersection(array)
+
+positive_happiness = sum([i in A_array_intersection for i in array])
+negative_happiness = sum([i in B_array_intersection for i in array])
+
+print(positive_happiness-negative_happiness)
 
 # c. Symmetric Difference
 
-M_ = raw_input()
-M_temp = raw_input()
+M_ = input()
+M_temp = input()
 M = set(M_temp.split())
-N_ = raw_input()
-N_temp = raw_input()
+N_ = input()
+N_temp = input()
 N = set(N_temp.split())
 
 M_N_differences = list(M.difference(N)) + list(N.difference(M))
@@ -418,76 +423,72 @@ print('\n'.join(sorted_list))
 
 # d. Set .add()
 
-num_stamps = raw_input()
+num_stamps = input()
 country_stamps = set()
 for _ in range(int(num_stamps)):
-    country = raw_input()
+    country = input()
     country_stamps.add(country)
 
 print(len(country_stamps))
 
 # e. Set .discard(), .remove() & .pop()
-# TODO: (Set .discard(), .remove() & .pop()) For some reason pop removes the 9, which then would be removed by the
-#  function remove, leading to an error...
-num = raw_input()
-s = set(list(map(int, raw_input().split())))
-print(type(s))
-print('start loop')
-command_lines = raw_input()
+
+num = input()
+s = set(list(map(int, input().split())))
+command_lines = input()
 for _ in range(int(command_lines)):
-    inputs = raw_input().split()
-    print(s)
-    print(inputs)
+    inputs = input().split()
     if inputs[0] == 'pop':
         s.pop()
     else:
         eval('s.' + str(inputs[0]) + '(' + str(inputs[1]) + ')')
-sum(s)
+
+print(sum(list(s)))
 
 # f. Set .union() Operation
 
-num_students_english = raw_input()
-roll_num_english = set(list(map(int, raw_input().split())))
-num_students_french = raw_input()
-roll_num_french = set(list(map(int, raw_input().split())))
+num_students_english = input()
+roll_num_english = set(list(map(int, input().split())))
+num_students_french = input()
+roll_num_french = set(list(map(int, input().split())))
 
 print(len(roll_num_english.union(roll_num_french)))
 
 # g. Set .intersection() Operation
 
-num_students_english = raw_input()
-roll_num_english = set(list(map(int, raw_input().split())))
-num_students_french = raw_input()
-roll_num_french = set(list(map(int, raw_input().split())))
+num_students_english = input()
+roll_num_english = set(list(map(int, input().split())))
+num_students_french = input()
+roll_num_french = set(list(map(int, input().split())))
 
 print(len(roll_num_english.intersection(roll_num_french)))
 
 # h. Set .difference() Operation
 
-num_students_english = raw_input()
-roll_num_english = set(list(map(int, raw_input().split())))
-num_students_french = raw_input()
-roll_num_french = set(list(map(int, raw_input().split())))
+num_students_english = input()
+roll_num_english = set(list(map(int, input().split())))
+num_students_french = input()
+roll_num_french = set(list(map(int, input().split())))
 
 print(len(roll_num_english.difference(roll_num_french)))
 
 # i. Set .symmetric_difference() Operation
 
-num_students_english = raw_input()
-roll_num_english = set(list(map(int, raw_input().split())))
-num_students_french = raw_input()
-roll_num_french = set(list(map(int, raw_input().split())))
+num_students_english = input()
+roll_num_english = set(list(map(int, input().split())))
+num_students_french = input()
+roll_num_french = set(list(map(int, input().split())))
 
 print(len(roll_num_english.symmetric_difference(roll_num_french)))
 
 # j. Set Mutations
 
-_ = raw_input()
-A = set(list(map(int, raw_input().split())))
-command_lines = raw_input()
+_ = input()
+A = set(list(map(int, input().split())))
+command_lines = input()
 for _ in range(int(command_lines)):
-    inputs = raw_input().split()
-    N = set(list(map(int, raw_input().split())))
+    inputs = input().split()
+    N = set(list(map(int, input().split())))
     if inputs[0] == 'intersection_update':
         A.intersection_update(N)
     elif inputs[0] == 'update':
@@ -499,30 +500,45 @@ for _ in range(int(command_lines)):
 print(sum(A))
 
 # k. The Captain's Room
-# TODO: not sure how to do this using the information learnt in sets...
+
+_ = input()
+room_number_list = list(map(int, input().split()))
+
+room_number_list.sort()
+
+if len(room_number_list)%2==0:
+    set_1 = [room_number_list[i] for i in range(0, len(room_number_list), 2)]
+    set_2 = [room_number_list[i] for i in range(1, len(room_number_list), 2)]
+else:
+    set_1 = [room_number_list[i] for i in range(0, len(room_number_list)+1, 2)]
+    set_2 = [room_number_list[i] for i in range(1, len(room_number_list), 2)]
+
+captain_room = set(set_1).symmetric_difference(set_2)
+
+print(list(captain_room)[0])
 
 # l. Check Subset
 
-test_cases = int(raw_input())
+test_cases = int(input())
 for _ in range(test_cases):
     answer = True
-    len_A = int(raw_input())
-    A = list(map(int, raw_input().split()))
-    len_B = int(raw_input())
-    B = list(map(int, raw_input().split()))
+    len_A = int(input())
+    A = list(map(int, input().split()))
+    len_B = int(input())
+    B = list(map(int, input().split()))
     intersection = set(A).intersection(B)
     if list(intersection) != A:
         answer = False
     print(answer)
 
 # m. Check Strict Superset
-# TODO: not sure why it is not working...(two test cases are failing)
+# TODO: not sure why it is not working...I have reviewed the two test cases that are failing and they seem to be correct
 
-A = list(map(int, raw_input().split()))
-num_test_sets = int(raw_input())
+A = list(map(int, input().split()))
+num_test_sets = int(input())
 result = True
 for _ in range(num_test_sets):
-    test_sets = list(map(int, raw_input().split()))
+    test_sets = list(map(int, input().split()))
     difference = set(test_sets).difference(A)
     if len(difference) >= 1:
         result = False
@@ -537,17 +553,69 @@ print(result)
 # 5. COLLECTIONS
 
 # a. collections.Counter()
-# TODO: (collections.Counter()) not sure how to do this either...
 
+num_shoes = int(input())
+shoe_size = list(map(int, input().split()))
+num_customers = int(input())
+income = 0
+for i in range(num_customers):
+    request = list(map(int, input().split()))
+    if request[0] in shoe_size:
+        income += request[1]
+        shoe_size.remove(request[0])
+print(income)
 
 # b. DefaultDict Tutorial
-# TODO:
+
+n_m = list(map(int, input().split()))
+a = [input() for x in range(n_m[0])]
+b = [input() for x in range(n_m[1])]
+
+d = defaultdict(list)
+for b_words in b:
+    i = 0
+    if b_words in a:
+        for a_words in a:
+            i += 1
+            if a_words == b_words:
+                d[b_words].append(i)
+    else:
+        d[b_words].append(-1)
+    print(' '.join([str(d[b_words][i]) for i in range(len(list(set(d[b_words]))))]))
 
 # c. Collections.namedtuple()
-# TODO:
+
+num_students = int(input())
+columns = input()
+Student_stats = namedtuple('Student_stats', columns)
+list_ = []
+for _ in range(num_students):
+    list_.append(int(Student_stats(*list(input().split())).MARKS))
+
+print("{:.2f}".format(sum(list_)/num_students))
 
 # d. Collections.OrderedDict()
-# TODO:
+
+from collections import Counter
+
+num_items = int(input())
+
+ordered_dictionary = OrderedDict()
+list_complete = []
+list_items = []
+for _ in range(num_items):
+    temp = input().split()
+    item = ' '.join(temp[:-1])
+    price = temp[-1]
+    list_complete.append([item, price])
+    list_items.append(item)
+
+list_counter = Counter(list_items)
+for i in range(num_items):
+    ordered_dictionary[list_items[i]] = int(list_complete[i][1]) * list_counter[list_items[i]]
+
+for i in range(len(ordered_dictionary)):
+    print(list(ordered_dictionary.keys())[i] + ' ' + str(list(ordered_dictionary.values())[i]))
 
 # e. Word Order
 # TODO:
@@ -745,8 +813,8 @@ except:
 
 string = str(input())
 x = re.findall(
-    r'(?<=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])[AEIOUaeiou]{2,}(?=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])',
-    string)
+   r'(?<=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])[AEIOUaeiou]{2,}(?=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])',
+   string)
 if x:
     print('\n'.join(x))
 else:
