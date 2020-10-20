@@ -1,9 +1,6 @@
 import textwrap
 import calendar
-import math
 import os
-import random
-import re
 import sys
 from datetime import datetime
 import email.utils
@@ -13,6 +10,10 @@ import xml.etree.ElementTree as etree
 import numpy as np
 from collections import defaultdict
 from collections import namedtuple
+from collections import OrderedDict
+from collections import Counter
+from collections import deque
+import operator
 
 # 1. INTRODUCTION
 
@@ -532,7 +533,6 @@ for _ in range(test_cases):
     print(answer)
 
 # m. Check Strict Superset
-# TODO: not sure why it is not working...I have reviewed the two test cases that are failing and they seem to be correct
 
 A = list(map(int, input().split()))
 num_test_sets = int(input())
@@ -543,7 +543,7 @@ for _ in range(num_test_sets):
     if len(difference) >= 1:
         result = False
         break
-    elif (len(difference)) == 0 & (len(A) == len(test_sets)):
+    elif len(A) == len(test_sets):
         result = False
         break
     else:
@@ -596,8 +596,6 @@ print("{:.2f}".format(sum(list_)/num_students))
 
 # d. Collections.OrderedDict()
 
-from collections import Counter
-
 num_items = int(input())
 
 ordered_dictionary = OrderedDict()
@@ -618,16 +616,59 @@ for i in range(len(ordered_dictionary)):
     print(list(ordered_dictionary.keys())[i] + ' ' + str(list(ordered_dictionary.values())[i]))
 
 # e. Word Order
-# TODO:
+
+num_words = int(input())
+list_words = [input() for _ in range(num_words)]
+
+words_counter = Counter(list_words)
+ordered_dict_words = OrderedDict()
+for word in list_words:
+    ordered_dict_words[word] = words_counter[word]
+
+print(len(ordered_dict_words))
+print(*ordered_dict_words.values())
 
 # f. Collection.deque()
-# TODO:
+
+num_lines = int(input())
+
+d = deque()
+for i in range(num_lines):
+    command = list(input().split())
+    if len(command) == 1:
+        eval('d.' + command[0] + '()')
+    else:
+        eval('d.' + command[0] + '(' + command[1] + ')')
+print(*list(d))
 
 # g. Company Logo
-# TODO:
+
+if __name__ == '__main__':
+    s = input()
+    letter_count = list(Counter(s).items())
+    ordered_list = sorted(sorted(letter_count, key = lambda x: x[0]), key = lambda x: x[1], reverse=True)[0:3]
+
+    for i in range(3):
+        print(ordered_list[i][0], ordered_list[i][1])
 
 # h. Pilling Up!
-# TODO:
+
+test_cases = int(input())
+
+for _ in range(test_cases):
+    num_cubes = int(input())
+    size_cubes = deque(list(map(int, input().split())))
+    base_pill = size_cubes.popleft() if size_cubes[0] >= size_cubes[-1] else size_cubes.pop()
+    while size_cubes:
+        if (len(size_cubes) == 1) & (size_cubes[0] <= base_pill):
+            print('Yes')
+        if (size_cubes[0] >= size_cubes[-1]) & (max(size_cubes[0], size_cubes[-1]) <= base_pill):
+            base_pill = size_cubes.popleft()
+        elif (size_cubes[-1] > size_cubes[0]) & (max(size_cubes[0], size_cubes[-1]) <= base_pill):
+            base_pill = size_cubes.pop()
+        else:
+            print('No')
+            break
 
 # 6. DATE AND TIME
 
@@ -711,8 +752,24 @@ eval(input_string)
 
 
 # d. Athlete Sort
-# TODO: (Athlete Sort) No idea how to do this...
 
+if __name__ == '__main__':
+    nm = input().split()
+
+    n = int(nm[0])
+
+    m = int(nm[1])
+
+    arr = []
+
+    for _ in range(n):
+        arr.append(list(map(int, input().rstrip().split())))
+
+    k = int(input())
+
+    arr.sort(key=lambda x: x[k])
+    for i in range(n):
+        print(*arr[i])
 
 # e. Any or All
 
@@ -739,7 +796,6 @@ else:
     print(False)
 
 # f. ginortS
-
 
 string = input()
 lower_case = []
@@ -789,10 +845,15 @@ if __name__ == '__main__':
     print(list(map(cube, fibonacci(n))))
 
 # 10. REGEX AND PARSING
-# I have reviewed internet for several of these exercises
+# I have used internet for several of these exercises
 
 # a. Detect Floating Point Number
-# # TODO: no idea...
+
+test_cases = int(input())
+regex_pattern = r'^[\+|\-|\.]?[0-9]*\.[0-9]{1,}$'
+for _ in range(test_cases):
+    string = input()
+    print(bool(re.search(regex_pattern, string)))
 
 # b. Re.split()
 
@@ -821,7 +882,20 @@ else:
     print(-1)
 
 # e. Re.start() & Re.end()
-# TODO: (Re.start() & Re.end())
+
+string = input()
+k = input()
+
+regex_pattern = '(?=(' + k + '))'
+total_matches = re.findall(regex_pattern, string)
+first_match = -1
+if total_matches:
+    for _ in total_matches:
+        m = re.search(k, string[first_match+1:])
+        print('(' + str(m.start()+first_match+1) + ', ' + str(m.end()-1+first_match+1) + ')')
+        first_match = m.start()+first_match+1
+else:
+    print('(-1, -1)')
 
 
 # f. Regex Substitution
@@ -964,20 +1038,66 @@ parser.feed(code)
 
 
 # n. Validating UID
-# TODO
 
+test_cases = int(input())
+for _ in range(test_cases):
+    UID = input()
+    condition_1 = bool(re.search(r'.*[A-Z].*[A-Z].*', UID))
+    condition_2 = bool(re.search(r'.*[0-9].*[0-9].*[0-9].*', UID))
+    condition_3 = bool(re.search(r'^[\w-]+$', UID))
+    condition_4 = bool(re.search(r'^(?:([A-Za-z0-9])(?!.*\1))*$', UID))
+    condition_5 = len(UID) == 10
+    if all([condition_1, condition_2, condition_3, condition_4, condition_5]):
+        print('Valid')
+    else:
+        print('Invalid')
 
 # o. Validating Credit Card Numbers
-# TODO
 
+num_credit_cards = int(input())
+
+for _ in range(num_credit_cards):
+    credit_card = input()
+    condition_1 = bool(re.search(r'^[456]', credit_card))
+    condition_2 = bool(re.search(r'([0-9]{4}-){3}[0-9]{4}$', credit_card)) | bool(re.search(r'[0-9]{16}', credit_card))
+    updated_string = re.sub('-', '', credit_card)
+    condition_3 = not bool(re.search(r'([0-9])\1{3,}', updated_string))
+    condition_4 = len(updated_string) == 16
+    if all([condition_1, condition_2, condition_3, condition_4]):
+        print('Valid')
+    else:
+        print('Invalid')
 
 # p. Validating Postal Codes
-# TODO
 
+regex_integer_in_range = r"^[1-9][0-9]{5}$"	# Do not delete 'r'.
+regex_alternating_repetitive_digit_pair = r"(\d)(?=\d\1)"	# Do not delete 'r'.
+
+P = input()
+
+print (bool(re.match(regex_integer_in_range, P))
+and len(re.findall(regex_alternating_repetitive_digit_pair, P)) < 2)
 
 # q. Matrix Script
-# TODO
 
+first_multiple_input = input().rstrip().split()
+
+n = int(first_multiple_input[0])
+
+m = int(first_multiple_input[1])
+
+matrix = []
+
+for _ in range(n):
+    matrix_item = input()
+    matrix.append(matrix_item)
+
+temp_list = list(zip(*matrix))
+list_ = []
+while temp_list:
+     list_.extend(temp_list.pop(0))
+matrix_string = ''.join(list_)
+print(re.sub(r"(?<=\w)([^\w]+)(?=\w)", " ", matrix_string))
 
 # 11. XML
 
@@ -1020,12 +1140,38 @@ def depth(elem, level):
 # 12. CLOSURES AND DECORATORS
 
 # a. Standardize Mobile Number Using Decorators
-# TODO
 
+def wrapper(f):
+    def fun(l):
+        updated_numbers = ['+91 ' + l[i][-10:-5] + ' ' + l[i][-5:] for i in range(len(l))]
+        return f(updated_numbers)
+    return fun
+
+@wrapper
+def sort_phone(l):
+    print(*sorted(l), sep='\n')
+
+if __name__ == '__main__':
+    l = [input() for _ in range(int(input()))]
+    sort_phone(l)
 
 # b. Decorators 2 - Name Directory
-# TODO
 
+
+def person_lister(f):
+    def inner(people):
+        updated_people = [x[0:2] + [int(x[2])] + list(x[-1]) for x in people]
+        updated_people.sort(key=operator.itemgetter(2))
+        return [f(i) for i in updated_people]
+    return inner
+
+@person_lister
+def name_format(person):
+    return ("Mr. " if person[3] == "M" else "Ms. ") + person[0] + " " + person[1]
+
+if __name__ == '__main__':
+    people = [input().split() for i in range(int(input()))]
+    print(*name_format(people), sep='\n')
 
 # 13. NUMPY
 
