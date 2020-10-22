@@ -76,7 +76,7 @@ print(result)
 
 if __name__ == '__main__':
     n = int(input().strip())
-    if (n%2) != 0:
+    if (n % 2) != 0:
         print('Weird')
     elif (n >= 2) & (n <= 5):
         print('Not Weird')
@@ -84,7 +84,6 @@ if __name__ == '__main__':
         print('Weird')
     else:
         print('Not Weird')
-
 
 # 2. BASIC DATA TYPES
 
@@ -277,7 +276,7 @@ M = N * 3
 for i in range(int((N - 1) / 2)):
     print(str('.|.' * (i * 2 + 1)).center(M, '-'))
 print('WELCOME'.center(M, '-'))
-for i in range(int(N/2) - 1, -1, -1):
+for i in range(int(N / 2) - 1, -1, -1):
     print(str('.|.' * (i * 2 + 1)).center(M, '-'))
 
 
@@ -404,7 +403,7 @@ B_array_intersection = set(B).intersection(array)
 positive_happiness = sum([i in A_array_intersection for i in array])
 negative_happiness = sum([i in B_array_intersection for i in array])
 
-print(positive_happiness-negative_happiness)
+print(positive_happiness - negative_happiness)
 
 # c. Symmetric Difference
 
@@ -507,11 +506,11 @@ room_number_list = list(map(int, input().split()))
 
 room_number_list.sort()
 
-if len(room_number_list)%2==0:
+if len(room_number_list) % 2 == 0:
     set_1 = [room_number_list[i] for i in range(0, len(room_number_list), 2)]
     set_2 = [room_number_list[i] for i in range(1, len(room_number_list), 2)]
 else:
-    set_1 = [room_number_list[i] for i in range(0, len(room_number_list)+1, 2)]
+    set_1 = [room_number_list[i] for i in range(0, len(room_number_list) + 1, 2)]
     set_2 = [room_number_list[i] for i in range(1, len(room_number_list), 2)]
 
 captain_room = set(set_1).symmetric_difference(set_2)
@@ -592,7 +591,7 @@ list_ = []
 for _ in range(num_students):
     list_.append(int(Student_stats(*list(input().split())).MARKS))
 
-print("{:.2f}".format(sum(list_)/num_students))
+print("{:.2f}".format(sum(list_) / num_students))
 
 # d. Collections.OrderedDict()
 
@@ -646,7 +645,7 @@ print(*list(d))
 if __name__ == '__main__':
     s = input()
     letter_count = list(Counter(s).items())
-    ordered_list = sorted(sorted(letter_count, key = lambda x: x[0]), key = lambda x: x[1], reverse=True)[0:3]
+    ordered_list = sorted(sorted(letter_count, key=lambda x: x[0]), key=lambda x: x[1], reverse=True)[0:3]
 
     for i in range(3):
         print(ordered_list[i][0], ordered_list[i][1])
@@ -750,7 +749,6 @@ print(eval(polynomial + '==' + str(k)))
 input_string = input()
 eval(input_string)
 
-
 # d. Athlete Sort
 
 if __name__ == '__main__':
@@ -770,6 +768,7 @@ if __name__ == '__main__':
     arr.sort(key=lambda x: x[k])
     for i in range(n):
         print(*arr[i])
+
 
 # e. Any or All
 
@@ -874,8 +873,8 @@ except:
 
 string = str(input())
 x = re.findall(
-   r'(?<=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])[AEIOUaeiou]{2,}(?=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])',
-   string)
+    r'(?<=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])[AEIOUaeiou]{2,}(?=[QWRTYPSDFGHJKLZXCVBNMqwrtypsdfghjklzxcvbnm])',
+    string)
 if x:
     print('\n'.join(x))
 else:
@@ -891,12 +890,11 @@ total_matches = re.findall(regex_pattern, string)
 first_match = -1
 if total_matches:
     for _ in total_matches:
-        m = re.search(k, string[first_match+1:])
-        print('(' + str(m.start()+first_match+1) + ', ' + str(m.end()-1+first_match+1) + ')')
-        first_match = m.start()+first_match+1
+        m = re.search(k, string[first_match + 1:])
+        print('(' + str(m.start() + first_match + 1) + ', ' + str(m.end() - 1 + first_match + 1) + ')')
+        first_match = m.start() + first_match + 1
 else:
     print('(-1, -1)')
-
 
 # f. Regex Substitution
 
@@ -1036,7 +1034,6 @@ code = ' '.join(code)
 parser = MyHTMLParser()
 parser.feed(code)
 
-
 # n. Validating UID
 
 test_cases = int(input())
@@ -1070,13 +1067,13 @@ for _ in range(num_credit_cards):
 
 # p. Validating Postal Codes
 
-regex_integer_in_range = r"^[1-9][0-9]{5}$"	# Do not delete 'r'.
-regex_alternating_repetitive_digit_pair = r"(\d)(?=\d\1)"	# Do not delete 'r'.
+regex_integer_in_range = r"^[1-9][0-9]{5}$"  # Do not delete 'r'.
+regex_alternating_repetitive_digit_pair = r"(\d)(?=\d\1)"  # Do not delete 'r'.
 
 P = input()
 
-print (bool(re.match(regex_integer_in_range, P))
-and len(re.findall(regex_alternating_repetitive_digit_pair, P)) < 2)
+print(bool(re.match(regex_integer_in_range, P))
+      and len(re.findall(regex_alternating_repetitive_digit_pair, P)) < 2)
 
 # q. Matrix Script
 
@@ -1095,9 +1092,10 @@ for _ in range(n):
 temp_list = list(zip(*matrix))
 list_ = []
 while temp_list:
-     list_.extend(temp_list.pop(0))
+    list_.extend(temp_list.pop(0))
 matrix_string = ''.join(list_)
 print(re.sub(r"(?<=\w)([^\w]+)(?=\w)", " ", matrix_string))
+
 
 # 11. XML
 
@@ -1145,15 +1143,19 @@ def wrapper(f):
     def fun(l):
         updated_numbers = ['+91 ' + l[i][-10:-5] + ' ' + l[i][-5:] for i in range(len(l))]
         return f(updated_numbers)
+
     return fun
+
 
 @wrapper
 def sort_phone(l):
     print(*sorted(l), sep='\n')
 
+
 if __name__ == '__main__':
     l = [input() for _ in range(int(input()))]
     sort_phone(l)
+
 
 # b. Decorators 2 - Name Directory
 
@@ -1163,15 +1165,19 @@ def person_lister(f):
         updated_people = [x[0:2] + [int(x[2])] + list(x[-1]) for x in people]
         updated_people.sort(key=operator.itemgetter(2))
         return [f(i) for i in updated_people]
+
     return inner
+
 
 @person_lister
 def name_format(person):
     return ("Mr. " if person[3] == "M" else "Ms. ") + person[0] + " " + person[1]
 
+
 if __name__ == '__main__':
     people = [input().split() for i in range(int(input()))]
     print(*name_format(people), sep='\n')
+
 
 # 13. NUMPY
 
@@ -1424,7 +1430,8 @@ if __name__ == '__main__':
 
 def superDigit(n, k):
     initial_digit = str(n)
-    return initial_digit if (len(initial_digit) == 1) else superDigit(sum([int(initial_digit[i]) for i in range(len(initial_digit))]) * k, 1)
+    return initial_digit if (len(initial_digit) == 1) else superDigit(
+        sum([int(initial_digit[i]) for i in range(len(initial_digit))]) * k, 1)
 
 
 if __name__ == '__main__':
@@ -1442,15 +1449,16 @@ if __name__ == '__main__':
 
     fptr.close()
 
+
 # e. Insertion Sort - Part 1
 
 
 def insertionSort1(n, arr):
     unsorted_value = arr[-1]
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
         try:
-            if arr[-(i+1)] > unsorted_value:
-                arr[-i] = arr[-(i+1)]
+            if arr[-(i + 1)] > unsorted_value:
+                arr[-i] = arr[-(i + 1)]
                 print(' '.join([str(int) for int in arr]))
             else:
                 arr[-i] = unsorted_value
@@ -1468,15 +1476,16 @@ if __name__ == '__main__':
 
     insertionSort1(n, arr)
 
+
 # f. Insertion Sort - Part 2
 
 
 def insertionSort1(n, arr):
     unsorted_value = arr[-1]
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
         try:
-            if arr[-(i+1)] > unsorted_value:
-                arr[-i] = arr[-(i+1)]
+            if arr[-(i + 1)] > unsorted_value:
+                arr[-i] = arr[-(i + 1)]
             else:
                 arr[-i] = unsorted_value
                 break
@@ -1486,7 +1495,7 @@ def insertionSort1(n, arr):
 
 
 def insertionSort2(n, arr):
-    for i in range(2, n+1):
+    for i in range(2, n + 1):
         arr[0:i] = insertionSort1(i, arr[0:i])
         print(' '.join([str(int) for int in arr]))
 
